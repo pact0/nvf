@@ -10,22 +10,6 @@
     ./fmt.nix
   ];
 
-  # Top-level flake lib - this is how you expose lib functions in flake-parts
-  flake = {
-    lib.mkNeovim = system: modules: let
-      pkgs = import inputs.nixpkgs {
-        inherit system;
-        overlays = lib.attrValues self.overlays;
-        config.allowUnfree = true;
-      };
-    in
-      inputs.nvf.lib.neovimConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {inherit inputs system self;};
-        modules = [../config] ++ modules;
-      };
-  };
-
   perSystem = {
     pkgs,
     system,
@@ -37,6 +21,11 @@
         extraSpecialArgs = {inherit inputs system self;};
         modules = [../config] ++ modules;
       };
+
+    # Extend lib with your custom functions
+    extendedLib = lib.extend (final: prev: {
+      mkNeovim = mkNeovim;
+    });
   in {
     _module.args.pkgs = import inputs.nixpkgs {
       inherit system;
@@ -44,6 +33,25 @@
       config.allowUnfree = true;
     };
 
+    # This makes the extended lib available as _module.args.lib
+    _module.args.lib = extendedLib;
+
     packages.default = (mkNeovim []).neovim;
+  };
+
+  # Also expose at flake level for external consumption
+  flake.lib = {
+    mkNeovim = system: modules: let
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        overlays = lib.attrValues self.overlays;
+        config.allowUnfree = true;
+      };
+    in
+      inputs.nvf.lib.neovimConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {inherit inputs system self;};
+        modules = [../config] ++ modules;
+      };
   };
 }
