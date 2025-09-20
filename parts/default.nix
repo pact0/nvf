@@ -15,6 +15,7 @@
     system,
     ...
   }: let
+    # Function to create a Neovim configuration
     mkNeovim = modules:
       inputs.nvf.lib.neovimConfiguration {
         inherit pkgs;
@@ -22,29 +23,30 @@
         modules = [../config] ++ modules;
       };
 
-    # Extend lib with your custom functions
+    # Extend lib with mkNeovim for per-system usage
     extendedLib = lib.extend (final: prev: {
       mkNeovim = mkNeovim;
     });
-  in {
-    _module.args.pkgs = import inputs.nixpkgs {
+
+    # Re-import pkgs so it is available in _module.args
+    systemPkgs = import inputs.nixpkgs {
       inherit system;
-      overlays = lib.attrValues self.overlays;
+      overlays = lib.attrValues self.overlays or [];
       config.allowUnfree = true;
     };
-
-    # This makes the extended lib available as _module.args.lib
+  in {
+    _module.args.pkgs = systemPkgs;
     _module.args.lib = extendedLib;
 
     packages.default = (mkNeovim []).neovim;
   };
 
-  # Also expose at flake level for external consumption
+  # Expose mkNeovim at the flake level for external consumption
   flake.lib = {
     mkNeovim = system: modules: let
       pkgs = import inputs.nixpkgs {
         inherit system;
-        overlays = lib.attrValues self.overlays;
+        overlays = lib.attrValues self.overlays or [];
         config.allowUnfree = true;
       };
     in
