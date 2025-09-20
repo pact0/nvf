@@ -11,50 +11,40 @@
   ];
 
   perSystem = {
+    config,
+    pkgs,
     system,
-    lib,
     ...
   }: let
-    # Import pkgs for this system
-    pkgs = import inputs.nixpkgs {
+    # Base Neovim config
+    baseNvimConfig = inputs.nvf.lib.neovimConfiguration {
+      inherit pkgs;
+
+      extraSpecialArgs = {
+        inherit inputs system self;
+      };
+
+      modules = [
+        ../config
+      ];
+    };
+  in {
+    _module.args.pkgs = import inputs.nixpkgs {
       inherit system;
-      overlays = lib.attrValues self.overlays or [];
+      overlays = lib.attrValues self.overlays;
       config.allowUnfree = true;
     };
 
-    # Function to create a Neovim configuration
-    mkNeovim = modules:
-      inputs.nvf.lib.neovimConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {inherit inputs system self;};
-        modules = [../config] ++ modules;
-      };
+    packages = {
+      default = baseNvimConfig.neovim;
 
-    # Extend lib with mkNeovim
-    extendedLib = lib.extend (final: prev: {
-      mkNeovim = mkNeovim;
-    });
-  in {
-    _module.args.pkgs = pkgs;
-    _module.args.lib = extendedLib;
-
-    # Default Neovim package
-    packages.default = (mkNeovim []).neovim;
-  };
-
-  # Flake-level mkNeovim for external consumption
-  flake.lib = {
-    mkNeovim = system: modules: let
-      pkgs = import inputs.nixpkgs {
-        inherit system;
-        overlays = lib.attrValues self.overlays or [];
-        config.allowUnfree = true;
-      };
-    in
-      inputs.nvf.lib.neovimConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {inherit inputs system self;};
-        modules = [../config] ++ modules;
-      };
+      # Expose a function to extend the base config
+      extend = attrs:
+        inputs.nvf.lib.neovimConfiguration
+        (lib.recursiveUpdate baseNvimConfig {
+          modules = baseNvimConfig.modules ++ (attrs.modules or []);
+          extraSpecialArgs = lib.recursiveUpdate baseNvimConfig.extraSpecialArgs (attrs.extraSpecialArgs or {});
+        }).neovim;
+    };
   };
 }
