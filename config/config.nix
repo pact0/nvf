@@ -1,5 +1,8 @@
-{ pkgs, lib, ... }:
 {
+  pkgs,
+  lib,
+  ...
+}: {
   config.vim = {
     clipboard.enable = true;
     clipboard.registers = "unnamedplus";
@@ -8,10 +11,13 @@
 
     theme.enable = true;
     statusline.lualine.enable = true;
-    treesitter.enable = true;
-    treesitter.autotagHtml = true;
-    treesitter.context.enable = true;
-    treesitter.fold = true;
+
+    treesitter = {
+      enable = true;
+      autotagHtml = true;
+      context.enable = true;
+      fold = true;
+    };
 
     autocomplete.enableSharedCmpSources = true;
     # autocomplete.blink-cmp.enable = true;
@@ -33,37 +39,42 @@
     debugger.nvim-dap.enable = true;
     debugger.nvim-dap.ui.enable = true;
 
-    diagnostics.enable = true;
-    diagnostics.config.signs = lib.generators.mkLuaInline ''
-      {
-        [vim.diagnostic.severity.ERROR] = "󰅚 ",
-        [vim.diagnostic.severity.WARN] = "󰀪 ",
-      }
-    '';
-    diagnostics.config.virtual_text = true;
-    diagnostics.nvim-lint.enable = true;
+    diagnostics = {
+      enable = true;
+      config.signs = lib.generators.mkLuaInline ''
+        {
+          [vim.diagnostic.severity.ERROR] = "󰅚 ",
+          [vim.diagnostic.severity.WARN] = "󰀪 ",
+        }
+      '';
+      config.virtual_text = true;
+      nvim-lint.enable = true;
+    };
 
     filetree.neo-tree.enable = true;
     formatter.conform-nvim.enable = true;
     git.enable = true;
     git.neogit.enable = true;
+    lsp = {
+      enable = true;
+      formatOnSave = true;
+      inlayHints.enable = true;
+      lspSignature.enable = true;
+      lspconfig.enable = true;
+      lspkind.enable = true;
+      lspsaga.enable = false;
+      nvim-docs-view.enable = true;
+      trouble.enable = true;
+    };
 
-    lsp.enable = true;
-    lsp.formatOnSave = true;
-    lsp.inlayHints.enable = true;
-    lsp.lspSignature.enable = true;
-    lsp.lspconfig.enable = true;
-    lsp.lspkind.enable = true;
-    lsp.lspsaga.enable = true;
-    lsp.nvim-docs-view.enable = true;
-    lsp.trouble.enable = true;
-
-    mini.ai.enable = true;
-    mini.align.enable = true;
-    mini.basics.enable = true;
-    mini.bracketed.enable = true;
-    mini.cursorword.enable = true;
-    mini.trailspace.enable = true;
+    mini = {
+      ai.enable = true;
+      align.enable = true;
+      basics.enable = true;
+      bracketed.enable = true;
+      cursorword.enable = true;
+      trailspace.enable = true;
+    };
 
     navigation.harpoon.enable = true;
 
@@ -77,46 +88,50 @@
 
     snippets.luasnip.enable = true;
 
-    languages.enableDAP = true;
-    languages.enableExtraDiagnostics = true;
-    languages.enableFormat = true;
-    languages.enableTreesitter = true;
+    languages = {
+      enableDAP = true;
+      enableExtraDiagnostics = true;
+      enableFormat = true;
+      enableTreesitter = true;
 
-    languages.nix.enable = true;
+      nix.enable = true;
 
-    languages.assembly.enable = true;
-    languages.astro.enable = true;
-    languages.lua.enable = true;
+      assembly.enable = true;
+      astro.enable = true;
+      lua.enable = true;
 
-    languages.clang.enable = true;
-    languages.clang.dap.enable = true;
+      clang.enable = true;
+      clang.dap.enable = true;
 
-    languages.python.enable = true;
-    languages.python.dap.enable = true;
+      python.enable = true;
+      python.dap.enable = true;
 
-    languages.bash.enable = true;
-    languages.css.enable = true;
-    languages.tailwind.enable = true;
-    languages.html.enable = true;
-    languages.ts.enable = true;
-    languages.ts.extensions.ts-error-translator.enable = true;
-    languages.sql.enable = true;
-    languages.yaml.enable = true;
+      bash.enable = true;
+      css.enable = true;
+      tailwind.enable = true;
+      html.enable = true;
+      ts.enable = true;
+      ts.extensions.ts-error-translator.enable = true;
+      sql.enable = true;
+      yaml.enable = true;
 
-    languages.markdown.enable = true;
-    # languages.markdown.extensions.markview-nvim.enable = true;
-    languages.markdown.extensions.render-markdown-nvim.enable = true;
-    languages.markdown.lsp.enable = true;
-    languages.markdown.treesitter.enable = true;
+      markdown = {
+        enable = true;
+        # languages.markdown.extensions.markview-nvim.enable = true;
+        extensions.render-markdown-nvim.enable = true;
+        lsp.enable = true;
+        treesitter.enable = true;
+      };
 
-    languages.rust.enable = true;
-    languages.rust.crates.enable = true;
+      rust.enable = true;
+      rust.crates.enable = true;
+    };
 
     telescope.enable = true;
     telescope.extensions = [
       {
         name = "fzf";
-        packages = [ pkgs.vimPlugins.telescope-fzf-native-nvim ];
+        packages = [pkgs.vimPlugins.telescope-fzf-native-nvim];
         setup = {
           fzf = {
             fuzzy = true;
@@ -125,51 +140,67 @@
       }
     ];
 
-    terminal.toggleterm.enable = true;
-    terminal.toggleterm.lazygit.enable = true;
+    terminal = {
+      toggleterm.enable = true;
+      toggleterm.lazygit.enable = true;
+    };
 
-    ui.borders.enable = true;
-    ui.breadcrumbs.enable = true;
-    ui.breadcrumbs.navbuddy.enable = true;
-    ui.colorful-menu-nvim.enable = true;
-    ui.colorizer.enable = true;
-    ui.fastaction.enable = true;
-    ui.noice.enable = true;
-    ui.nvim-ufo.enable = true;
-    ui.smartcolumn.enable = true;
+    ui = {
+      borders.enable = true;
+      breadcrumbs.enable = true;
+      breadcrumbs.navbuddy.enable = true;
+      colorful-menu-nvim.enable = true;
+      colorizer.enable = true;
+      fastaction.enable = true;
+      noice.enable = true;
+      nvim-ufo.enable = true;
+      smartcolumn.enable = true;
+    };
 
-    # undoFile.enable = true;
+    utility = {
+      # undoFile.enable = true;
 
-    utility.diffview-nvim.enable = true;
-    utility.direnv.enable = true;
-    utility.images.image-nvim.enable = true;
-    utility.images.img-clip.enable = true;
+      diffview-nvim.enable = true;
+      direnv.enable = true;
+      images.image-nvim.enable = true;
+      images.img-clip.enable = true;
 
-    utility.leetcode-nvim.enable = true;
-    utility.leetcode-nvim.setupOpts.image_support = true;
-    utility.leetcode-nvim.setupOpts.lang = "cpp";
+      leetcode-nvim = {
+        enable = true;
+        setupOpts.image_support = true;
+        setupOpts.lang = "cpp";
+      };
 
-    utility.mkdir.enable = true;
+      mkdir.enable = true;
 
-    utility.motion.flash-nvim.enable = true;
+      motion.flash-nvim.enable = true;
 
-    utility.multicursors.enable = true;
+      multicursors.enable = true;
 
-    utility.oil-nvim.enable = true;
+      oil-nvim.enable = true;
 
-    utility.snacks-nvim.enable = true;
-    utility.surround.enable = true;
+      snacks-nvim.enable = true;
+      surround.enable = true;
 
-    utility.undotree.enable = true;
+      undotree.enable = true;
 
-    utility.yazi-nvim.enable = true;
+      yazi-nvim.enable = true;
+    };
 
-    visuals.fidget-nvim.enable = true;
-    visuals.indent-blankline.enable = true;
-    visuals.indent-blankline.setupOpts.scope.show_end = true;
-    visuals.indent-blankline.setupOpts.scope.show_exact_scope = true;
-    visuals.indent-blankline.setupOpts.scope.show_start = true;
-    visuals.nvim-web-devicons.enable = true;
-    visuals.rainbow-delimiters.enable = true;
+    visuals = {
+      fidget-nvim.enable = true;
+      indent-blankline = {
+        enable = true;
+        setupOpts = {
+          scope = {
+            show_end = true;
+            show_exact_scope = true;
+            show_start = true;
+          };
+        };
+      };
+      nvim-web-devicons.enable = true;
+      rainbow-delimiters.enable = true;
+    };
   };
 }
