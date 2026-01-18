@@ -121,7 +121,7 @@
         treesitter.enable = true;
         extraDiagnostics.enable = true;
         extensions.ts-error-translator.enable = true;
-        format.type = "biome";
+        format.type = ["biome" "prettier"];
       };
 
       sql.enable = true;
@@ -136,7 +136,7 @@
       };
 
       rust.enable = true;
-      rust.crates.enable = true;
+      rust.extensions.crates-nvim.enable = true;
     };
 
     telescope.enable = true;
