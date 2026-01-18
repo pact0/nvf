@@ -10,41 +10,36 @@
     ./fmt.nix
   ];
 
-  perSystem = {
-    config,
-    pkgs,
+  flake.lib.mkNeovim = {
     system,
-    ...
+    modules ? [],
   }: let
-    # Base Neovim config
-    baseNvimConfig = inputs.nvf.lib.neovimConfiguration {
-      inherit pkgs;
-
-      extraSpecialArgs = {
-        inherit inputs system self;
-      };
-
-      modules = [
-        ../config
-      ];
-    };
-  in {
-    _module.args.pkgs = import inputs.nixpkgs {
+    pkgs = import inputs.nixpkgs {
       inherit system;
       overlays = lib.attrValues self.overlays;
       config.allowUnfree = true;
     };
-
-    packages = {
-      default = baseNvimConfig.neovim;
-
-      # Expose a function to extend the base config
-      extend = attrs:
-        inputs.nvf.lib.neovimConfiguration
-        (lib.recursiveUpdate baseNvimConfig {
-          modules = baseNvimConfig.modules ++ (attrs.modules or []);
-          extraSpecialArgs = lib.recursiveUpdate baseNvimConfig.extraSpecialArgs (attrs.extraSpecialArgs or {});
-        }).neovim;
+  in
+    inputs.nvf.lib.neovimConfiguration {
+      inherit pkgs;
+      extraSpecialArgs = {inherit inputs system self;};
+      modules = [../config] ++ modules;
     };
+
+  perSystem = {
+    pkgs,
+    system,
+    ...
+  }: let
+    pkgsPerSystem = import inputs.nixpkgs {
+      inherit system;
+      overlays = lib.attrValues self.overlays;
+      config.allowUnfree = true;
+    };
+  in {
+    _module.args.pkgs = pkgsPerSystem;
+
+    # Always use flake's lib
+    packages.default = (self.lib.mkNeovim {inherit system;}).neovim;
   };
 }

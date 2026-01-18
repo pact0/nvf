@@ -84,7 +84,12 @@
     notify.nvim-notify.enable = true;
 
     projects.project-nvim.enable = true;
-    session.nvim-session-manager.enable = true;
+
+    session = {
+      nvim-session-manager.enable = true;
+      nvim-session-manager.setupOpts.autoload_mode = "GitSession";
+      nvim-session-manager.setupOpts.autosave_last_session = true;
+    };
 
     snippets.luasnip.enable = true;
 
@@ -110,8 +115,15 @@
       css.enable = true;
       tailwind.enable = true;
       html.enable = true;
-      ts.enable = true;
-      ts.extensions.ts-error-translator.enable = true;
+
+      ts = {
+        enable = true;
+        treesitter.enable = true;
+        extraDiagnostics.enable = true;
+        extensions.ts-error-translator.enable = true;
+        format.type = "biome";
+      };
+
       sql.enable = true;
       yaml.enable = true;
 
