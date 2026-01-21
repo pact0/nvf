@@ -53,6 +53,10 @@
 
     filetree.neo-tree.enable = true;
     formatter.conform-nvim.enable = true;
+    formatter.conform-nvim.setupOpts.formatters_by_ft = {
+      cmake = ["cmake_format"];
+    };
+
     git.enable = true;
     git.neogit.enable = true;
     lsp = {
@@ -105,8 +109,10 @@
       astro.enable = true;
       lua.enable = true;
 
-      clang.enable = true;
-      clang.dap.enable = true;
+      clang = {
+        enable = true;
+        dap.enable = true;
+      };
 
       python.enable = true;
       python.dap.enable = true;
