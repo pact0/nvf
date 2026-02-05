@@ -158,6 +158,14 @@
       }
     ];
 
+    lsp.lspconfig.sources.cmake = ''
+      require('lspconfig').cmake.setup({
+        capabilities = capabilities,
+        on_attach = default_on_attach,
+        cmd = {"${pkgs.cmake-language-server}/bin/cmake-language-server"}
+      })
+    '';
+
     terminal = {
       toggleterm.enable = true;
       toggleterm.lazygit.enable = true;
@@ -180,6 +188,7 @@
 
       diffview-nvim.enable = true;
       direnv.enable = true;
+
       images.image-nvim.enable = true;
       images.img-clip.enable = true;
 
@@ -199,6 +208,7 @@
 
       snacks-nvim.enable = true;
       surround.enable = true;
+      smart-splits.enable = true;
 
       undotree.enable = true;
 
