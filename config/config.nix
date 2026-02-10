@@ -132,6 +132,7 @@
 
       sql.enable = true;
       yaml.enable = true;
+      json.enable = true;
 
       markdown = {
         enable = true;
