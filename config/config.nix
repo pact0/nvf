@@ -4,8 +4,15 @@
   ...
 }: {
   config.vim = {
-    clipboard.enable = true;
-    clipboard.registers = "unnamedplus";
+    clipboard = {
+      enable = true;
+      registers = "unnamedplus";
+      providers = {
+        xclip.enable = true;
+        wl-copy.enable = true;
+      };
+    };
+
     hideSearchHighlight = true;
     syntaxHighlighting = true;
 
@@ -25,11 +32,14 @@
 
     autocomplete.nvim-cmp.enable = true;
 
-    spellcheck.enable = true;
-    spellcheck.languages = [
-      "en"
-      "pl"
-    ];
+    spellcheck = {
+      enable = true;
+      languages = [
+        "en"
+        "pl"
+      ];
+      programmingWordlist.enable = true;
+    };
 
     autopairs.nvim-autopairs.enable = true;
     binds.whichKey.enable = true;
@@ -205,7 +215,7 @@
 
       multicursors.enable = true;
 
-      oil-nvim.enable = true;
+      # oil-nvim.enable = true;
 
       snacks-nvim.enable = true;
       surround.enable = true;
