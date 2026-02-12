@@ -1,14 +1,10 @@
-{
-  lib,
-  ...
-}:
-let
+{lib, ...}: let
   inherit (lib.options) mkEnableOption;
-in
-{
+in {
   imports = [
     ./vim.nix
     ./config.nix
+    ./keymaps.nix
   ];
 
   options = {
@@ -39,5 +35,4 @@ in
       ];
     };
   };
-
 }

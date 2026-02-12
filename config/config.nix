@@ -61,7 +61,7 @@
       nvim-lint.enable = true;
     };
 
-    filetree.neo-tree.enable = true;
+    # filetree.neo-tree.enable = true;
     formatter.conform-nvim.enable = true;
     formatter.conform-nvim.setupOpts.formatters_by_ft = {
       cmake = ["cmake_format"];
@@ -100,9 +100,11 @@
     projects.project-nvim.enable = true;
 
     session = {
-      nvim-session-manager.enable = true;
-      nvim-session-manager.setupOpts.autoload_mode = "GitSession";
-      nvim-session-manager.setupOpts.autosave_last_session = true;
+      nvim-session-manager = {
+        enable = true;
+        setupOpts.autoload_mode = "GitSession";
+        setupOpts.autosave_last_session = true;
+      };
     };
 
     snippets.luasnip.enable = true;
