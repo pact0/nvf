@@ -16,7 +16,13 @@
     hideSearchHighlight = true;
     syntaxHighlighting = true;
 
-    theme.enable = true;
+    theme = {
+      enable = true;
+      name = "gruvbox";
+      style = "dark";
+      # transparent = true;
+    };
+
     statusline.lualine.enable = true;
 
     treesitter = {
@@ -201,6 +207,7 @@
 
       diffview-nvim.enable = true;
       direnv.enable = true;
+      outline.aerial-nvim.enable = true;
 
       images.image-nvim.enable = true;
       images.img-clip.enable = true;
@@ -226,6 +233,8 @@
       undotree.enable = true;
 
       yazi-nvim.enable = true;
+
+      grug-far-nvim.enable = true;
     };
 
     visuals = {
