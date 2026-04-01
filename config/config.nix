@@ -94,6 +94,7 @@
       bracketed.enable = true;
       cursorword.enable = true;
       trailspace.enable = true;
+      pick.enable = true;
     };
 
     navigation.harpoon.enable = true;
