@@ -44,7 +44,7 @@
         "en"
         "pl"
       ];
-      programmingWordlist.enable = true;
+      # programmingWordlist.enable = true;
     };
 
     autopairs.nvim-autopairs.enable = true;
@@ -85,6 +85,9 @@
       lspsaga.enable = false;
       nvim-docs-view.enable = true;
       trouble.enable = true;
+      presets = {
+        tailwindcss-language-server.enable = true;
+      };
     };
 
     mini = {
@@ -94,7 +97,16 @@
       bracketed.enable = true;
       cursorword.enable = true;
       trailspace.enable = true;
-      pick.enable = true;
+      pick = {
+        enable = true;
+        setupOpts = {
+          mappings = {
+            "refine" = "<C-f>";
+            "refine_marked" = "<M-f>";
+          };
+        };
+      };
+      extra.enable = true;
     };
 
     navigation.harpoon.enable = true;
@@ -132,16 +144,16 @@
         enable = true;
         dap.enable = true;
       };
+      cmake.enable = true;
 
       python.enable = true;
       python.dap.enable = true;
 
       bash.enable = true;
       css.enable = true;
-      tailwind.enable = true;
       html.enable = true;
 
-      ts = {
+      typescript = {
         enable = true;
         treesitter.enable = true;
         extraDiagnostics.enable = true;
@@ -177,14 +189,6 @@
         };
       }
     ];
-
-    lsp.lspconfig.sources.cmake = ''
-      require('lspconfig').cmake.setup({
-        capabilities = capabilities,
-        on_attach = default_on_attach,
-        cmd = {"${pkgs.cmake-language-server}/bin/cmake-language-server"}
-      })
-    '';
 
     terminal = {
       toggleterm.enable = true;
