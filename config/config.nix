@@ -13,8 +13,12 @@
       };
     };
 
+    viAlias = true;
+    vimAlias = true;
+
     hideSearchHighlight = true;
     syntaxHighlighting = true;
+    undoFile.enable = true;
 
     theme = {
       enable = true;
@@ -25,10 +29,13 @@
 
     statusline.lualine.enable = true;
 
+    tabline.nvimBufferline.enable = true;
+
     treesitter = {
       enable = true;
       autotagHtml = true;
       context.enable = true;
+      textobjects.enable = true;
       fold = true;
     };
 
@@ -45,6 +52,7 @@
         "pl"
       ];
       # programmingWordlist.enable = true;
+      # vim-dirtytalk.enable = true;
     };
 
     autopairs.nvim-autopairs.enable = true;
@@ -87,7 +95,11 @@
       trouble.enable = true;
       presets = {
         tailwindcss-language-server.enable = true;
+        bash-language-server.enable = true;
+        clangd.enable = true;
       };
+
+      otter-nvim.enable = true;
     };
 
     mini = {
@@ -144,6 +156,7 @@
         enable = true;
         dap.enable = true;
       };
+      make.enable = true;
       cmake.enable = true;
 
       python.enable = true;
@@ -158,12 +171,18 @@
         treesitter.enable = true;
         extraDiagnostics.enable = true;
         extensions.ts-error-translator.enable = true;
+
+        extraDiagnostics.types = [
+          "biomejs"
+          "eslint_d"
+        ];
         format.type = ["biome" "prettier"];
       };
 
       sql.enable = true;
       yaml.enable = true;
       json.enable = true;
+      xml.enable = true;
 
       markdown = {
         enable = true;
@@ -172,9 +191,14 @@
         lsp.enable = true;
         treesitter.enable = true;
       };
+      tex.enable = true;
+      toml.enable = true;
 
-      rust.enable = true;
-      rust.extensions.crates-nvim.enable = true;
+      rust = {
+        enable = true;
+        dap.enable = true;
+        extensions.crates-nvim.enable = true;
+      };
     };
 
     telescope.enable = true;
@@ -196,6 +220,7 @@
     };
 
     ui = {
+      # ui2.enable = true;
       borders.enable = true;
       breadcrumbs.enable = true;
       breadcrumbs.navbuddy.enable = true;
@@ -205,11 +230,11 @@
       noice.enable = true;
       nvim-ufo.enable = true;
       smartcolumn.enable = true;
+      nvim-highlight-colors.enable = true;
+      nvim-highlight-colors.setupOpts.render = "virtual";
     };
 
     utility = {
-      # undoFile.enable = true;
-
       diffview-nvim.enable = true;
       direnv.enable = true;
       outline.aerial-nvim.enable = true;
