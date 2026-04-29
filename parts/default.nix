@@ -26,11 +26,7 @@
       modules = [../config] ++ modules;
     };
 
-  perSystem = {
-    pkgs,
-    system,
-    ...
-  }: let
+  perSystem = {system, ...}: let
     pkgsPerSystem = import inputs.nixpkgs {
       inherit system;
       overlays = lib.attrValues self.overlays;

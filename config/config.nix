@@ -29,8 +29,6 @@
 
     statusline.lualine.enable = true;
 
-    tabline.nvimBufferline.enable = true;
-
     treesitter = {
       enable = true;
       autotagHtml = true;
@@ -228,7 +226,7 @@
       colorizer.enable = true;
       fastaction.enable = true;
       noice.enable = true;
-      nvim-ufo.enable = true;
+      # nvim-ufo.enable = true;
       smartcolumn.enable = true;
       nvim-highlight-colors.enable = true;
       nvim-highlight-colors.setupOpts.render = "virtual";
