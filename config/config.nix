@@ -34,7 +34,7 @@
       autotagHtml = true;
       context.enable = true;
       textobjects.enable = true;
-      fold = true;
+      # fold = true;
     };
 
     autocomplete.enableSharedCmpSources = true;
