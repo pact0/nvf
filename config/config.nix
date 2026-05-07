@@ -12,6 +12,10 @@
         wl-copy.enable = true;
       };
     };
+    options = {
+      foldenable = false;
+      foldmethod = "manual";
+    };
 
     viAlias = true;
     vimAlias = true;
@@ -34,7 +38,7 @@
       autotagHtml = true;
       context.enable = true;
       textobjects.enable = true;
-      # fold = true;
+      fold = true;
     };
 
     autocomplete.enableSharedCmpSources = true;
@@ -226,7 +230,7 @@
       colorizer.enable = true;
       fastaction.enable = true;
       noice.enable = true;
-      # nvim-ufo.enable = true;
+      nvim-ufo.enable = true;
       smartcolumn.enable = true;
       nvim-highlight-colors.enable = true;
       nvim-highlight-colors.setupOpts.render = "virtual";
