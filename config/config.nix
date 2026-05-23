@@ -17,6 +17,8 @@
       foldmethod = "manual";
     };
 
+    globals.vim_markdown_folding_disable = 1;
+
     viAlias = true;
     vimAlias = true;
 
@@ -37,8 +39,21 @@
       enable = true;
       autotagHtml = true;
       context.enable = true;
-      textobjects.enable = true;
       fold = true;
+      grammars = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+
+      textobjects = {
+        enable = true;
+        setupOpts = {
+          # select = {
+          #   enable = true;
+          #   keymaps = {
+          #     af = "@function.outer";
+          #   };
+          #   lookahead = true;
+          # };
+        };
+      };
     };
 
     autocomplete.enableSharedCmpSources = true;
@@ -105,7 +120,41 @@
     };
 
     mini = {
-      ai.enable = true;
+      ai = {
+        enable = true;
+
+        # setupOpts = {
+        #   mappings = {
+        #     "around" = "a";
+        #     "inside" = "i";
+        #
+        #     around_next = "an";
+        #     inside_next = "in";
+        #     around_last = "al";
+        #     inside_last = "il";
+        #
+        #     goto_left = "g[";
+        #     goto_right = "g]";
+        #   };
+        #
+        #   custom_textobjects = {
+        #     "f" = "require('mini.ai').gen_spec.function_call({ name_pattern = '[%w_]' })";
+        #     "F" = "require('mini.ai').gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' })";
+        #     # f = [
+        #     #   ''
+        #     #     MiniAi.gen_spec.treesitter({
+        #     #       a = '@function.outer',
+        #     #       i = '@function.inner',
+        #     #     })
+        #     #   ''
+        #     #   "cpp"
+        #     # ];
+        #   };
+        # };
+      };
+    };
+    mini = {
+      # ai.enable = true;
       align.enable = true;
       basics.enable = true;
       bracketed.enable = true;
@@ -125,7 +174,18 @@
 
     navigation.harpoon.enable = true;
 
-    # notes.obsidian.enable = true;
+    notes.obsidian = {
+      enable = true;
+      setupOpts = {
+        "workspaces" = [
+          {
+            name = "personal";
+            path = "~/Vaults/Vault";
+          }
+        ];
+      };
+    };
+
     notes.todo-comments.enable = true;
 
     notify.nvim-notify.enable = true;
@@ -256,7 +316,7 @@
 
       multicursors.enable = true;
 
-      # oil-nvim.enable = true;
+      oil-nvim.enable = true;
 
       snacks-nvim.enable = true;
       surround.enable = true;
@@ -284,5 +344,24 @@
       nvim-web-devicons.enable = true;
       rainbow-delimiters.enable = true;
     };
+
+    luaConfigPost = ''
+      local gen_spec = require('mini.ai').gen_spec
+      require('mini.ai').setup({
+        custom_textobjects = {
+          -- Tweak argument to be recognized only inside `()` between `;`
+          a = gen_spec.argument({ brackets = { '%b()' }, separator = ';' }),
+
+          -- Tweak function call to not detect dot in function name
+          f = gen_spec.function_call({ name_pattern = '[%w_]' }),
+
+          -- Function definition (needs treesitter queries with these captures)
+          F = gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
+
+          -- Make `|` select both edges in non-balanced way
+          ['|'] = gen_spec.pair('|', '|', { type = 'non-balanced' }),
+        }
+      })
+    '';
   };
 }
