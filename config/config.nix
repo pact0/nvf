@@ -120,46 +120,14 @@
     };
 
     mini = {
-      ai = {
-        enable = true;
-
-        # setupOpts = {
-        #   mappings = {
-        #     "around" = "a";
-        #     "inside" = "i";
-        #
-        #     around_next = "an";
-        #     inside_next = "in";
-        #     around_last = "al";
-        #     inside_last = "il";
-        #
-        #     goto_left = "g[";
-        #     goto_right = "g]";
-        #   };
-        #
-        #   custom_textobjects = {
-        #     "f" = "require('mini.ai').gen_spec.function_call({ name_pattern = '[%w_]' })";
-        #     "F" = "require('mini.ai').gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' })";
-        #     # f = [
-        #     #   ''
-        #     #     MiniAi.gen_spec.treesitter({
-        #     #       a = '@function.outer',
-        #     #       i = '@function.inner',
-        #     #     })
-        #     #   ''
-        #     #   "cpp"
-        #     # ];
-        #   };
-        # };
-      };
-    };
-    mini = {
-      # ai.enable = true;
+      ai.enable = true;
       align.enable = true;
+      move.enable = true;
       basics.enable = true;
       bracketed.enable = true;
       cursorword.enable = true;
       trailspace.enable = true;
+      surround.enable = true;
       pick = {
         enable = true;
         setupOpts = {
@@ -319,7 +287,6 @@
       oil-nvim.enable = true;
 
       snacks-nvim.enable = true;
-      surround.enable = true;
       smart-splits.enable = true;
 
       undotree.enable = true;
@@ -361,6 +328,25 @@
           -- Make `|` select both edges in non-balanced way
           ['|'] = gen_spec.pair('|', '|', { type = 'non-balanced' }),
         }
+      })
+      require('mini.move').setup({
+        mappings = {
+          left = '<C-h>',
+          right = '<C-l>',
+          down = '<C-j>',
+          up = '<C-k>',
+
+          line_left = '<C-h>',
+          line_right = '<C-l>',
+          line_down = '<C-j>',
+          line_up = '<C-k>',
+        },
+
+        -- Options which control moving behavior
+        options = {
+          -- Automatically reindent selection during linewise vertical move
+          reindent_linewise = true,
+        },
       })
     '';
   };
