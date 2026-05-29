@@ -349,5 +349,12 @@
         },
       })
     '';
+
+    extraPlugins = {
+      overseer = {
+        package = pkgs.vimPlugins.overseer-nvim;
+        setup = "require('overseer').setup {}";
+      };
+    };
   };
 }
