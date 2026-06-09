@@ -132,6 +132,11 @@
         enable = true;
         setupOpts = {
           mappings = {
+            "scroll_down" = "<C-j>";
+            "scroll_up" = "<C-k>";
+            "scroll_left" = "<C-h>";
+            "scroll_right" = "<C-l>";
+
             "refine" = "<C-f>";
             "refine_marked" = "<M-f>";
           };
