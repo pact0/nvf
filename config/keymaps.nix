@@ -27,5 +27,18 @@
       silent = true;
       action = "<C-d>zz";
     }
+
+    {
+      key = "]h";
+      mode = ["n" "x" "v"];
+      silent = true;
+      action = "<cmd>Gitsigns nav_hunk next<cr>";
+    }
+    {
+      key = "[h";
+      mode = ["n" "x" "v"];
+      silent = true;
+      action = "<cmd>Gitsigns nav_hunk prev<cr>";
+    }
   ];
 }
