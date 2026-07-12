@@ -3,7 +3,7 @@
     enableLuaLoader = true;
 
     extraPackages = with pkgs; [
-      ueberzug
+      ueberzugpp
     ];
   };
 }
