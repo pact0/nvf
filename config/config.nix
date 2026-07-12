@@ -156,6 +156,16 @@
             path = "~/Vaults/Vault";
           }
         ];
+
+        templates = {
+          folder = "~/Vaults/Vault/Templates";
+        };
+
+        daily_notes = {
+          enabled = true;
+          folder = "200 Personal/Daily";
+          template = "~/Vaults/Vault/Templates/Daily Note Template";
+        };
       };
     };
 
