@@ -224,6 +224,14 @@
         format.type = ["biome" "prettier"];
       };
 
+      tsx = {
+        enable = true;
+        treesitter.enable = true;
+        extraDiagnostics.enable = true;
+        extraDiagnostics.types = ["biomejs"];
+        format.type = ["prettier"];
+      };
+
       sql.enable = true;
       yaml.enable = true;
       json.enable = true;
