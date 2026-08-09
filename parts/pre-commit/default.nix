@@ -40,7 +40,7 @@
 
           lychee = mkHook "lychee" {
             enable = true;
-            excludes = ["^(?!.*\.md$).*"]; # ignore non-markdown
+            excludes = ["^(?!.*\\.md$).*"]; # ignore non-markdown
           };
 
           editorconfig-checker = mkHook "editorconfig" {
