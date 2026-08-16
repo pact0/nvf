@@ -22,6 +22,8 @@
     viAlias = true;
     vimAlias = true;
 
+    searchCase = "smart";
+
     hideSearchHighlight = true;
     syntaxHighlighting = true;
     undoFile.enable = true;
@@ -124,6 +126,7 @@
         enable = true;
         setupOpts.formatters_by_ft = {
           cmake = ["cmake_format"];
+          # lisp = ["sbcl"];
         };
 
         presets = {
@@ -142,8 +145,11 @@
       };
     };
 
-    git.enable = true;
-    git.neogit.enable = true;
+    git = {
+      enable = true;
+      neogit.enable = true;
+    };
+
     lsp = {
       enable = true;
       formatOnSave = true;
@@ -154,14 +160,25 @@
       lspsaga.enable = false;
       nvim-docs-view.enable = true;
       trouble.enable = true;
+
       presets = {
         tailwindcss-language-server.enable = true;
+        typescript-language-server.enable = true;
+
         bash-language-server.enable = true;
         clangd.enable = true;
+        docker-language-server.enable = true;
+        gitlab-ci-ls.enable = true;
+        just-lsp.enable = true;
+        marksman.enable = true;
+        rust-analyzer.enable = true;
+        sqls.enable = true;
       };
 
       otter-nvim.enable = true;
     };
+
+    repl.conjure.enable = true;
 
     mini = {
       ai.enable = true;
@@ -292,9 +309,14 @@
       just.enable = true;
       xml.enable = true;
 
-      lisp.enable = true;
+      lisp = {
+        enable = true;
 
-      lisp.format.enable = true;
+        format = {
+          enable = true;
+          type = ["emacs"];
+        };
+      };
 
       markdown = {
         enable = true;
@@ -315,18 +337,19 @@
 
     telescope = {
       enable = true;
-    };
-    telescope.extensions = [
-      {
-        name = "fzf";
-        packages = [pkgs.vimPlugins.telescope-fzf-native-nvim];
-        setup = {
-          fzf = {
-            fuzzy = true;
+
+      extensions = [
+        {
+          name = "fzf";
+          packages = [pkgs.vimPlugins.telescope-fzf-native-nvim];
+          setup = {
+            fzf = {
+              fuzzy = true;
+            };
           };
-        };
-      }
-    ];
+        }
+      ];
+    };
 
     terminal = {
       toggleterm.enable = true;
@@ -340,6 +363,7 @@
       breadcrumbs.navbuddy.enable = true;
       colorful-menu-nvim.enable = true;
       colorizer.enable = true;
+
       fastaction.enable = true;
       noice.enable = true;
       nvim-ufo.enable = true;
@@ -363,6 +387,15 @@
       };
 
       mkdir.enable = true;
+
+      crazy-coverage.enable = true;
+
+      csvview = {
+        enable = true;
+        autoEnable = true;
+      };
+
+      preview.markdownPreview.enable = true;
 
       motion.flash-nvim.enable = true;
 
@@ -397,6 +430,16 @@
     };
 
     luaConfigPost = ''
+      vim.treesitter.language.add('commonlisp', { filetypes = { 'lisp' } })
+
+      vim.lsp.config("cl_lsp", {
+        cmd = { "cl-lsp" },
+        filetypes = { "lisp" },
+        root_markers = { ".git" },
+      })
+
+      vim.lsp.enable("cl_lsp")
+
       local gen_spec = require('mini.ai').gen_spec
       require('mini.ai').setup({
         custom_textobjects = {
