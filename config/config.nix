@@ -371,6 +371,34 @@
           reindent_linewise = true,
         },
       })
+
+      local externals_patterns = { 'externals', 'externals_m' }
+      local function toggle_externals_filter()
+        local values = require('telescope.config').values
+        local current = values.file_ignore_patterns or {}
+        local present = {}
+        local has_externals = false
+        for _, pat in ipairs(current) do
+          local is_external = false
+          for _, ext in ipairs(externals_patterns) do
+            if pat == ext then
+              is_external = true
+              has_externals = true
+            end
+          end
+          if not is_external then
+            table.insert(present, pat)
+          end
+        end
+        if not has_externals then
+          for _, ext in ipairs(externals_patterns) do
+            table.insert(present, ext)
+          end
+        end
+        values.file_ignore_patterns = present
+        vim.notify('Telescope: externals filter ' .. (has_externals and 'OFF' or 'ON'))
+      end
+      vim.keymap.set('n', '<leader>fe', toggle_externals_filter, { desc = 'Toggle externals filter in Telescope' })
     '';
 
     extraPlugins = {
