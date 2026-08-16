@@ -76,26 +76,70 @@
     binds.whichKey.enable = true;
 
     comments.comment-nvim.enable = true;
+    debugger = {
+      nvim-dap = {
+        enable = true;
+        ui.enable = true;
+        ui.autoStart = true;
 
-    debugger.nvim-dap.enable = true;
-    debugger.nvim-dap.ui.enable = true;
+        presets = {
+          codelldb.enable = true;
+          lldb.enable = true;
+        };
+      };
+    };
 
     diagnostics = {
       enable = true;
-      config.signs = lib.generators.mkLuaInline ''
-        {
-          [vim.diagnostic.severity.ERROR] = "󰅚 ",
-          [vim.diagnostic.severity.WARN] = "󰀪 ",
-        }
-      '';
-      config.virtual_text = true;
-      nvim-lint.enable = true;
-    };
+      config = {
+        signs = lib.generators.mkLuaInline ''
+          {
+            [vim.diagnostic.severity.ERROR] = "󰅚 ",
+            [vim.diagnostic.severity.WARN] = "󰀪 ",
+          }
+        '';
+        virtual_text = true;
+        underline = true;
+      };
 
-    # filetree.neo-tree.enable = true;
-    formatter.conform-nvim.enable = true;
-    formatter.conform-nvim.setupOpts.formatters_by_ft = {
-      cmake = ["cmake_format"];
+      presets = {
+        clangtidy.enable = true;
+        cpplint.enable = true;
+
+        deadnix.enable = true;
+
+        dotenv-linter.enable = true;
+        eslint_d.enable = true;
+        htmlhint.enable = true;
+      };
+
+      nvim-lint.enable = true;
+      nvim-lint.linters = {
+        "cpp" = {};
+      };
+    };
+    formatter = {
+      conform-nvim = {
+        # filetree.neo-tree.enable = true;
+        enable = true;
+        setupOpts.formatters_by_ft = {
+          cmake = ["cmake_format"];
+        };
+
+        presets = {
+          biome-check.enable = true;
+          biome-organize-imports.enable = true;
+          biome.enable = true;
+
+          clang-format.enable = true;
+
+          dockerfmt.enable = true;
+          just.enable = true;
+
+          sbcl.enable = true;
+          shfmt.enable = true;
+        };
+      };
     };
 
     git.enable = true;
@@ -193,12 +237,22 @@
 
       nix.enable = true;
 
+      clojure.enable = true;
+
+      docker = {
+        enable = true;
+        extraDiagnostics.enable = true;
+      };
+
       assembly.enable = true;
       astro.enable = true;
       lua.enable = true;
 
       clang = {
         enable = true;
+
+        cHeader = true;
+        extraDiagnostics.enable = false; # TODO: check if annoying format warnings are gone
         dap.enable = true;
       };
       make.enable = true;
@@ -235,7 +289,12 @@
       sql.enable = true;
       yaml.enable = true;
       json.enable = true;
+      just.enable = true;
       xml.enable = true;
+
+      lisp.enable = true;
+
+      lisp.format.enable = true;
 
       markdown = {
         enable = true;
@@ -254,7 +313,9 @@
       };
     };
 
-    telescope.enable = true;
+    telescope = {
+      enable = true;
+    };
     telescope.extensions = [
       {
         name = "fzf";
