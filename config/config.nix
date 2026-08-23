@@ -300,7 +300,7 @@
         treesitter.enable = true;
         extraDiagnostics.enable = true;
         extraDiagnostics.types = ["biomejs"];
-        format.type = ["prettier"];
+        format.type = ["biome" "prettier"];
       };
 
       sql.enable = true;
