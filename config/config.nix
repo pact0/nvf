@@ -37,6 +37,8 @@
 
     statusline.lualine.enable = true;
 
+    filetree.neo-tree.enable = true;
+
     treesitter = {
       enable = true;
       autotagHtml = true;
