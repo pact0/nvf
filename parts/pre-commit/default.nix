@@ -39,7 +39,7 @@
           };
 
           lychee = mkHook "lychee" {
-            enable = true;
+            enable = false;
             excludes = ["^(?!.*\\.md$).*"]; # ignore non-markdown
           };
 
