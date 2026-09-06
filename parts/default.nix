@@ -27,15 +27,19 @@
     };
 
   perSystem = {system, ...}: let
-    pkgsPerSystem = import inputs.nixpkgs {
+    pkgs = import inputs.nixpkgs {
       inherit system;
       overlays = lib.attrValues self.overlays;
       config.allowUnfree = true;
     };
+    neovim = (self.lib.mkNeovim {inherit system;}).neovim;
   in {
-    _module.args.pkgs = pkgsPerSystem;
+    _module.args.pkgs = pkgs;
 
     # Always use flake's lib
-    packages.default = (self.lib.mkNeovim {inherit system;}).neovim;
+    packages.default = neovim;
+
+    # Make `nix flake check` actually build the config
+    checks.build = neovim;
   };
 }
