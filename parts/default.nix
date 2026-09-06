@@ -41,5 +41,17 @@
 
     # Make `nix flake check` actually build the config
     checks.build = neovim;
+
+    # Smoke-test that the config actually starts headlessly, catching
+    # plugin/runtime errors that a build alone won't surface.
+    checks.run =
+      pkgs.runCommand "nvf-smoke-test"
+      {
+        nativeBuildInputs = [neovim];
+      } ''
+        export HOME=$TMPDIR
+        nvim --headless +qa
+        touch $out
+      '';
   };
 }
