@@ -35,7 +35,15 @@
       # transparent = true;
     };
 
-    statusline.lualine.enable = true;
+    statusline = {
+      lualine = {
+        enable = true;
+        integrations = {
+          breadcrumbs.nvim-navic.enable = true;
+          breadcrumbs.navbuddy.enable = true;
+        };
+      };
+    };
 
     filetree.neo-tree.enable = true;
 
@@ -368,8 +376,6 @@
     ui = {
       # ui2.enable = true;
       borders.enable = true;
-      breadcrumbs.enable = true;
-      breadcrumbs.navbuddy.enable = true;
       colorful-menu-nvim.enable = true;
       colorizer.enable = true;
 
