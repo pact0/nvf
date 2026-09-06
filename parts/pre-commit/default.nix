@@ -54,6 +54,8 @@
               edit = true;
             };
           };
+
+          statix = mkHook "statix" {enable = true;};
         };
       };
     };

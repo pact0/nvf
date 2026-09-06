@@ -32,7 +32,7 @@
       overlays = lib.attrValues self.overlays;
       config.allowUnfree = true;
     };
-    neovim = (self.lib.mkNeovim {inherit system;}).neovim;
+    inherit (self.lib.mkNeovim {inherit system;}) neovim;
   in {
     _module.args.pkgs = pkgs;
 
