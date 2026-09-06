@@ -77,7 +77,14 @@
     };
 
     autopairs.nvim-autopairs.enable = true;
-    binds.whichKey.enable = true;
+
+    binds.whichKey = {
+      enable = true;
+      register = {
+        "<leader>t" = "Test";
+        "<leader>td" = "Debug";
+      };
+    };
 
     comments.comment-nvim.enable = true;
     debugger = {
@@ -507,10 +514,83 @@
       vim.keymap.set('n', '<leader>fe', toggle_externals_filter, { desc = 'Toggle externals filter in Telescope' })
     '';
 
+    extraPackages = with pkgs; [
+      cargo-nextest
+    ];
+
     extraPlugins = {
       overseer = {
         package = pkgs.vimPlugins.overseer-nvim;
         setup = "require('overseer').setup {}";
+      };
+
+      nvim-nio = {
+        package = pkgs.vimPlugins.nvim-nio;
+      };
+      plenary-nvim = {
+        package = pkgs.vimPlugins.plenary-nvim;
+      };
+
+      neotest = {
+        package = pkgs.vimPlugins.neotest;
+        setup = ''
+          local neotest = require("neotest")
+
+          neotest.setup({
+            adapters = {
+              require("neotest-vitest"),
+              -- require("neotest-bun"),
+              require("neotest-rust")({ args = { "--no-capture" } }),
+              require("neotest-gtest").setup({}),
+              require("neotest-ctest").setup({}),
+            },
+          })
+
+          local map = vim.keymap.set
+
+          map("n", "<leader>tn", function()
+            neotest.run.run()
+          end, { desc = "Run nearest test" })
+
+          map("n", "<leader>tf", function()
+            neotest.run.run(vim.fn.expand("%"))
+          end, { desc = "Run file tests" })
+
+          map("n", "<leader>ta", function()
+            neotest.run.run(vim.uv.cwd())
+          end, { desc = "Run all tests" })
+
+          map("n", "<leader>ts", function()
+            neotest.summary.toggle()
+          end, { desc = "Toggle test summary" })
+
+          map("n", "<leader>to", function()
+            neotest.output.open({ enter = true })
+          end, { desc = "Open test output" })
+
+          map("n", "<leader>tdn", function()
+            neotest.run.run({ strategy = "dap" })
+          end, { desc = "Debug nearest test" })
+
+          map("n", "<leader>tdf", function()
+            neotest.run.run(vim.fn.expand("%"), { strategy = "dap" })
+          end, { desc = "Debug file tests" })
+        '';
+      };
+      neotest-vitest = {
+        package = pkgs.vimPlugins.neotest-vitest;
+      };
+      # neotest-bun = {
+      #   package = pkgs.vimPlugins.neotest-bun;
+      # };
+      neotest-rust = {
+        package = pkgs.vimPlugins.neotest-rust;
+      };
+      neotest-gtest = {
+        package = pkgs.vimPlugins.neotest-gtest;
+      };
+      neotest-ctest = {
+        package = pkgs.vimPlugins.neotest-ctest;
       };
     };
   };
